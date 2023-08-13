@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Tenant.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.15" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazor.Aplicacao\Blazor.Aplicacao.csproj" />
+    <ProjectReference Include="..\..\Blazor.Dominio\Blazor.Dominio.csproj" />
+    <ProjectReference Include="..\..\Blazor.Infra\Blazor.Infra.csproj" />
+    <ProjectReference Include="..\Shared\Blazor.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Tenant.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Tenant.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Tenant.cshtml" />
+  </ItemGroup>
+
+</Project>

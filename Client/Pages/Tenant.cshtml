@@ -1,0 +1,82 @@
+﻿@page "/Tenants"
+@*@model Blazor.Client.Pages.TenantModel*@
+@using Blazor.Dominio.Entidade;
+@inject HttpClient Http
+
+
+
+
+<html>
+    <PageTitle>Tenants</PageTitle>
+    <h1>Tenants</h1>
+    <p>Listagem das Tenants</p>
+    <body>
+        <form>
+            <div class="form-row">
+@*                <div class="col-md-4 mb-3">
+                    <label for="validationServer01">Descrição</label>
+                    <input type="text" class="form-control is-valid" id="validationServer01" placeholder="" value="" required>
+                    <div class="valid-feedback">
+                    Tudo certo!
+                    </div>
+                </div>*@
+                
+                <button type="submit" class="btn btn-outline-success" onclick="@(async () => await Adicionar())" style="width:220px;">Adicionar</button>
+              
+              
+            </div>
+        </form>
+    </body>
+</html>
+
+@if (listaDeEmpresas == null)
+{
+    <p><em>Aguarde...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Descrição</th>
+ 
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var linha in listaDeEmpresas)
+            {
+                <tr>
+ 
+                    <td>@linha.Descricao</td>
+                    <td>
+                        <a button type="button" class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@linha.Id">Edit</a> |
+                        <a button type="button" class="btn btn-outline-info" asp-action="Details" asp-route-id="@linha.Id">Details</a> |
+                        <a button type="button" class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@linha.Id">Delete</a>
+                    </td>
+                </tr>
+          
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private Tenant[] listaDeEmpresas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaDeEmpresas = await Http.GetFromJsonAsync<Tenant[]>("/api/Tenants/RetornaTodos");
+        var aaaa = "";
+    }
+
+    protected async Task Adicionar()
+    {
+        Tenant add = new Tenant()
+        {
+            Descricao = "Inserido em: " + DateTime.Now.ToString()
+        };
+        await Http.PostAsJsonAsync("/api/Tenants/Incluir", add);
+    }
+}
+
