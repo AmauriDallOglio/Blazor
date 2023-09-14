@@ -1,10 +1,5 @@
 ﻿using Blazor.Aplicacao.Aplicacao;
 using Blazor.Aplicacao.DTO;
-using Blazor.Aplicacao.Interface;
-using Blazor.Dominio.Commands.Tenant.Create;
-using Blazor.Dominio.CQRS.Tenant.Find;
-using Blazor.Dominio.InterfaceRepositorio;
-using Blazor.Infra.Context;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -25,21 +20,41 @@ namespace Blazor.Api.Controllers
         }
 
 
-        [HttpPost]
-        [Route("CreateCqrs")]
-        public CreateTenantResponse CreateCqrs([FromServices] ICreateTenantHandler handler, [FromBody] CreateTenantRequest command)
-        {
-            var response = handler.Handle(command);
-            return response;
-        }
 
-        [HttpGet]
-        [Route("GetByIdCqrs")]
-        public IActionResult GetByIdCqrs([FromServices] IFindTenantHandler handler, [FromQuery] FindTenantByIdRequest command)
-        {
-            var result = handler.Handle(command);
-            return Ok(result);
-        }
+        //[HttpPost]
+        //[Route("CreateMediator")]
+        //public Task<CreateTenantMediatorResponse> CreateMediator([FromServices] IMediator mediator, [FromBody] CreateTenantMediatorRequest command)
+        //{
+        //    var response = mediator.Send(command);
+        //    return response;
+        //}
+
+
+        ////[HttpGet]
+        ////[Route("GetByIdMediator")]
+        ////public IActionResult GetByIdCqrs([FromServices] IMediator mediator, [FromQuery] FindTenantByIdRequest command)
+        ////{
+        ////    var result = mediator.Send(command);
+        ////    return Ok(result);
+        ////}
+
+
+
+        //[HttpPost]
+        //[Route("CreateCqrs")]
+        //public CreateTenantResponse CreateCqrs([FromServices] ICreateTenantHandler handler, [FromBody] CreateTenantRequest command)
+        //{
+        //    var response = handler.Handle(command);
+        //    return response;
+        //}
+
+        //[HttpGet]
+        //[Route("GetByIdCqrs")]
+        //public IActionResult GetByIdCqrs([FromServices] IFindTenantHandler handler, [FromQuery] FindTenantByIdRequest command)
+        //{
+        //    var result = handler.Handle(command);
+        //    return Ok(result);
+        //}
 
 
 

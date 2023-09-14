@@ -1,27 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\WeatherForecastController.cs" />
+    <Compile Remove="Mediator\Auditoria\Excluir\**" />
+    <EmbeddedResource Remove="Mediator\Auditoria\Excluir\**" />
+    <None Remove="Mediator\Auditoria\Excluir\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Class1.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazor.Aplicacao\Blazor.Aplicacao.csproj" />
     <ProjectReference Include="..\..\Blazor.Dominio\Blazor.Dominio.csproj" />
-    <ProjectReference Include="..\..\Blazor.Infra\Blazor.Infra.csproj" />
-    <ProjectReference Include="..\Blazor.AplicacaoCqrsMediator\Blazor.AplicacaoCqrsMediator.csproj" />
   </ItemGroup>
 
 </Project>

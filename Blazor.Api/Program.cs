@@ -1,15 +1,12 @@
-using Blazor.Aplicacao.Aplicacao;
-using Blazor.Aplicacao.Interface;
-using Blazor.Dominio.Commands.Tenant.Create;
-using Blazor.Dominio.CQRS.Tenant.Find;
-using Blazor.Dominio.InterfaceRepositorio;
+using AutoMapper;
+using Blazor.Api.Configuracao;
+using Blazor.AplicacaoCqrsMediator.CQRS.Tenant.Create;
+using Blazor.AplicacaoCqrsMediator.CQRS.Tenant.Find;
 using Blazor.Infra.Context;
-using Blazor.Infra.Repositorio;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Text.Json.Serialization;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -23,30 +20,35 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations(); // Habilita o uso de anotações para documentar o Swagger
     // Restante da configuração do Swagger...
 });
+ 
+string connectionString = builder.Configuration.GetConnectionString("ConexaoPadrao");
+builder.Services.AddDbContext<MeuContext>(options => options.UseSqlServer(connectionString));
 
+ 
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddHttpClient();
+builder.Services.AddHealthChecks();
 
+DependenciasDoEntity.Injetar(builder);
 
+var config = new MapperConfiguration(cfg =>
+{
+    DependenciasDoMapper.Injetar(cfg);
+});
 
-builder.Services.AddDbContext<MeuContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+IMapper mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddCors();
 
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
+///Declara as dependencias do CQRS
 builder.Services.AddTransient<ICreateTenantHandler, CreateTenantHandler>();
 builder.Services.AddTransient<IFindTenantHandler, FindTenantHandler>();
 
-
-
-
-builder.Services.AddScoped<ITenantRepositorio, TenantRepositorio>();
-builder.Services.AddScoped<TenantAplicacao>();
-builder.Services.AddScoped<ITenantAplicacao, TenantAplicacao>();
-
-builder.Services.AddScoped<IAuditoriaRepositorio, AuditoriaRepositorio>();
-builder.Services.AddScoped<AuditoriaAplicacao>();
-builder.Services.AddScoped<IAuditoriaAplicacao, AuditoriaAplicacao>();
-
-
-
+ 
+ 
+ 
 var app = builder.Build();
 
 
